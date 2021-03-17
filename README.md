@@ -180,9 +180,9 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 python -u main_eval_visda.py \
 
 ### Detection and Segmentation Experiments
 
-Detials of YOLOv4 for detection are collected [here]().
+Detials of YOLOv4 for detection are collected [here](https://github.com/VITA-Group/CV_LTH_Pre-training/blob/main/Detection/README.md).
 
-Detials of DeepLabv3+ for segmentation are collected [here](https://github.com/VITA-Group/CV_LTH_Pre-training/tree/main/Segmentation).
+Detials of DeepLabv3+ for segmentation are collected [here](https://github.com/VITA-Group/CV_LTH_Pre-training/blob/main/Segmentation/README.md).
 
 ## Citation
 

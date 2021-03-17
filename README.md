@@ -182,7 +182,7 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 python -u main_eval_visda.py \
 
 Detials of YOLOv4 for detection are collected [here]().
 
-Detials of DeepLabv3+ for segmentation are collected [here]().
+Detials of DeepLabv3+ for segmentation are collected [here](https://github.com/VITA-Group/CV_LTH_Pre-training/tree/main/Segmentation).
 
 ## Citation
 

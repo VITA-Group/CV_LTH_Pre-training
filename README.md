@@ -148,7 +148,7 @@ CUDA_VISIBLE_DEVICES=0 python -u main_imp_downstream.py \
 
 ### Transfer to Downstream Tasks
 
-##### Small dataset:
+##### Small datasets: (e.g., CIFAR-10, CIFAR-100, SVHN, Fashion-MNIST)
 
 ```
 CUDA_VISIBLE_DEVICES=0 python -u main_eval_downstream.py \

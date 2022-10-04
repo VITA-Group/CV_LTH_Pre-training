@@ -1,4 +1,4 @@
-name: pytorch
+name: cv_lth
 channels:
   - pytorch
   - defaults
@@ -120,4 +120,4 @@ dependencies:
     - wcwidth==0.2.5
     - webencodings==0.5.1
     - zipp==3.8.1
-prefix: /home/naitri/miniconda3/envs/pytorch
+

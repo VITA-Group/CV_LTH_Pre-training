@@ -30,6 +30,32 @@ def cifar10_dataloaders(batch_size=64, data_dir = 'datasets/cifar10'):
 
     return train_loader, val_loader, test_loader
 
+# def cifar10_dataloaders(batch_size=64, data_dir = 'datasets/cifar10', subset_ratio = 0.1):
+
+#     normalize = transforms.Normalize(mean=[0.4914, 0.4822, 0.4465], std=[0.2023, 0.1994, 0.2010])
+#     train_transform = transforms.Compose([
+#         transforms.RandomCrop(32, padding=4),
+#         transforms.RandomHorizontalFlip(),
+#         transforms.ToTensor(),
+#         normalize
+#     ])
+
+#     test_transform = transforms.Compose([
+#         transforms.ToTensor(),
+#         normalize
+#     ])
+
+#     train_set = Subset(CIFAR10(data_dir, train=True, transform=train_transform, download=True), list(range(int(50000*subset_ratio*0.8))))
+#     val_set = Subset(CIFAR10(data_dir, train=True, transform=test_transform, download=True), list(range(int(50000*subset_ratio*0.8), int(50000*subset_ratio))))
+#     test_set = CIFAR10(data_dir, train=False, transform=test_transform, download=True)
+
+#     train_loader = DataLoader(train_set, batch_size=batch_size, shuffle=True, num_workers=2,
+#                                 drop_last=True, pin_memory=True)
+#     val_loader = DataLoader(val_set, batch_size=batch_size, shuffle=False, num_workers=2, pin_memory=True)
+#     test_loader = DataLoader(test_set, batch_size=batch_size, shuffle=False, num_workers=2, pin_memory=True)
+
+#     return train_loader, val_loader, test_loader
+
 def cifar100_dataloaders(batch_size=64, data_dir = 'datasets/cifar100'):
 
     normalize = transforms.Normalize(mean=[0.5071, 0.4866, 0.4409], std=[0.2009, 0.1984, 0.2023])

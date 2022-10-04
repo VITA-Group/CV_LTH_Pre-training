@@ -25,6 +25,8 @@ import torchvision.datasets as datasets
 from torch.utils.data.sampler import SubsetRandomSampler
 from utils import *
 from pruning_utils import *
+import wandb
+
 
 parser = argparse.ArgumentParser(description='PyTorch Evaluation Tickets')
 

@@ -134,7 +134,7 @@ def test(val_loader, model, criterion, args):
 
     return top1.avg
 
-def save_checkpoint(state, is_SA_best, save_path, pruning, filename='checkpoint.pth.tar'):
+def save_checkpoint(state, is_SA_best, save_path, pruning = "_", filename='checkpoint.pth.tar'):
     filepath = os.path.join(save_path, str(pruning)+filename)
     torch.save(state, filepath)
     if is_SA_best:

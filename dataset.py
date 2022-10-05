@@ -4,7 +4,7 @@ from torch.utils.data import DataLoader, Subset
 
 __all__ = ['cifar10_dataloaders', 'cifar100_dataloaders', 'svhn_dataloaders', 'fashionmnist_dataloaders']
 
-def cifar10_dataloaders(batch_size=64, data_dir = 'datasets/cifar10'):
+def cifar10_dataloaders(batch_size=64, data_dir = 'datasets/cifar10',ratio=1):
 
     normalize = transforms.Normalize(mean=[0.4914, 0.4822, 0.4465], std=[0.2023, 0.1994, 0.2010])
     train_transform = transforms.Compose([
@@ -19,8 +19,8 @@ def cifar10_dataloaders(batch_size=64, data_dir = 'datasets/cifar10'):
         normalize
     ])
 
-    train_set = Subset(CIFAR10(data_dir, train=True, transform=train_transform, download=True), list(range(45000)))
-    val_set = Subset(CIFAR10(data_dir, train=True, transform=test_transform, download=True), list(range(45000, 50000)))
+    train_set = Subset(CIFAR10(data_dir, train=True, transform=train_transform, download=True), list(range(int(50000 * ratio * 0.8))))
+    val_set = Subset(CIFAR10(data_dir, train=True, transform=test_transform, download=True), list(range(int(50000 * ratio * 0.8), int(50000 * ratio))))
     test_set = CIFAR10(data_dir, train=False, transform=test_transform, download=True)
 
     train_loader = DataLoader(train_set, batch_size=batch_size, shuffle=True, num_workers=2,
@@ -30,7 +30,7 @@ def cifar10_dataloaders(batch_size=64, data_dir = 'datasets/cifar10'):
 
     return train_loader, val_loader, test_loader
 
-def cifar100_dataloaders(batch_size=64, data_dir = 'datasets/cifar100'):
+def cifar100_dataloaders(batch_size=64, data_dir = 'datasets/cifar100',ratio=1):
 
     normalize = transforms.Normalize(mean=[0.5071, 0.4866, 0.4409], std=[0.2009, 0.1984, 0.2023])
     train_transform = transforms.Compose([
@@ -45,8 +45,8 @@ def cifar100_dataloaders(batch_size=64, data_dir = 'datasets/cifar100'):
         normalize
     ])
 
-    train_set = Subset(CIFAR100(data_dir, train=True, transform=train_transform, download=True), list(range(45000)))
-    val_set = Subset(CIFAR100(data_dir, train=True, transform=test_transform, download=True), list(range(45000, 50000)))
+    train_set = Subset(CIFAR10(data_dir, train=True, transform=train_transform, download=True), list(range(int(50000 * ratio * 0.8))))
+    val_set = Subset(CIFAR10(data_dir, train=True, transform=test_transform, download=True), list(range(int(50000 * ratio * 0.8), int(50000 * ratio))))
     test_set = CIFAR100(data_dir, train=False, transform=test_transform, download=True)
 
     train_loader = DataLoader(train_set, batch_size=batch_size, shuffle=True, num_workers=2,

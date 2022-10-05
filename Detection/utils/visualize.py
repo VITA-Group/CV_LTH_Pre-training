@@ -404,6 +404,7 @@ def draw_bounding_box_on_image(
     try:
         font = ImageFont.truetype("arial.ttf", 24)
     except IOError:
+        print("Issue encountered while loading font")
         font = ImageFont.load_default()
 
     # If the total height of the display strings added to the top of the bounding

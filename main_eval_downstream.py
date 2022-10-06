@@ -85,7 +85,7 @@ parser.add_argument(
     "--reverse_mask", action="store_true", help="whether using reverse mask"
 )
 parser.add_argument(
-    "--few_shot_ratio", default=0.1, type=float, help="ratio of few shot data"
+    "--few_shot_ratio", default=1, type=float, help="ratio of few shot data"
 )
 
 
@@ -101,7 +101,7 @@ def main():
 
     print(args)
     wandb_config = vars(args)
-    run = wandb.init(project="downstream", entity="828w", config=wandb_config)
+    run = wandb.init(project="downstream_v3", entity="828w", config=wandb_config)
     update_args(args, dict(run.config))
     print("*" * 50)
     print("Dataset: {}".format(args.dataset))

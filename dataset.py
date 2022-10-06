@@ -36,7 +36,7 @@ __all__ = [
 #     return train_loader, val_loader, test_loader
 
 
-def cifar10_dataloaders(batch_size=64, data_dir="datasets/cifar10", subset_ratio=0.1):
+def cifar10_dataloaders(batch_size=64, data_dir="datasets/cifar10", subset_ratio=1):
 
     normalize = transforms.Normalize(
         mean=[0.4914, 0.4822, 0.4465], std=[0.2023, 0.1994, 0.2010]
@@ -86,7 +86,7 @@ def cifar10_dataloaders(batch_size=64, data_dir="datasets/cifar10", subset_ratio
     return train_loader, val_loader, test_loader
 
 
-def cifar100_dataloaders(batch_size=64, data_dir="datasets/cifar100"):
+def cifar100_dataloaders(batch_size=64, data_dir="datasets/cifar100", subset_ratio = 1):
 
     normalize = transforms.Normalize(
         mean=[0.5071, 0.4866, 0.4409], std=[0.2009, 0.1984, 0.2023]
@@ -104,7 +104,7 @@ def cifar100_dataloaders(batch_size=64, data_dir="datasets/cifar100"):
 
     train_set = Subset(
         CIFAR100(data_dir, train=True, transform=train_transform, download=True),
-        list(range(45000)),
+        list(range( int(45000 * subset_ratio))),
     )
     val_set = Subset(
         CIFAR100(data_dir, train=True, transform=test_transform, download=True),
@@ -129,40 +129,26 @@ def cifar100_dataloaders(batch_size=64, data_dir="datasets/cifar100"):
 
     return train_loader, val_loader, test_loader
 
+def svhn_dataloaders(batch_size=64, data_dir = 'datasets/svhn', subset_ratio=1):
 
-def svhn_dataloaders(batch_size=64, data_dir="datasets/svhn"):
+    normalize = transforms.Normalize(mean=[0.4377, 0.4438, 0.4728], std=[0.1201, 0.1231, 0.1052])
+    train_transform = transforms.Compose([
+        transforms.ToTensor(),
+        normalize
+    ])
 
-    normalize = transforms.Normalize(
-        mean=[0.4377, 0.4438, 0.4728], std=[0.1201, 0.1231, 0.1052]
-    )
-    train_transform = transforms.Compose([transforms.ToTensor(), normalize])
+    test_transform = transforms.Compose([
+        transforms.ToTensor(),
+        normalize
+    ])
 
-    test_transform = transforms.Compose([transforms.ToTensor(), normalize])
-
-    train_set = Subset(
-        SVHN(data_dir, split="train", transform=train_transform, download=True),
-        list(range(68257)),
-    )
-    val_set = Subset(
-        SVHN(data_dir, split="train", transform=train_transform, download=True),
-        list(range(68257, 73257)),
-    )
-    test_set = SVHN(data_dir, split="test", transform=test_transform, download=True)
-
-    train_loader = DataLoader(
-        train_set,
-        batch_size=batch_size,
-        shuffle=True,
-        num_workers=2,
-        drop_last=True,
-        pin_memory=True,
-    )
-    val_loader = DataLoader(
-        val_set, batch_size=batch_size, shuffle=False, num_workers=2, pin_memory=True
-    )
-    test_loader = DataLoader(
-        test_set, batch_size=batch_size, shuffle=False, num_workers=2, pin_memory=True
-    )
+    train_set = Subset(SVHN(data_dir, split='train', transform=train_transform, download=True),list(range(int(68257*subset_ratio))))
+    val_set = Subset(SVHN(data_dir, split='train', transform=train_transform, download=True),list(range(68257,73257)))
+    test_set = SVHN(data_dir, split='test', transform=test_transform, download=True)
+            
+    train_loader = DataLoader(train_set, batch_size=batch_size, shuffle=True, num_workers=2, drop_last=True, pin_memory=True)
+    val_loader = DataLoader(val_set, batch_size=batch_size, shuffle=False, num_workers=2, pin_memory=True)
+    test_loader = DataLoader(test_set, batch_size=batch_size, shuffle=False, num_workers=2, pin_memory=True)
 
     return train_loader, val_loader, test_loader
 

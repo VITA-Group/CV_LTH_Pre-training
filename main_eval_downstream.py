@@ -31,12 +31,8 @@ import wandb
 parser = argparse.ArgumentParser(description="PyTorch Evaluation Tickets")
 
 ##################################### data setting #################################################
-parser.add_argument(
-    "--data", type=str, default="../data", help="location of the data corpus"
-)
-parser.add_argument(
-    "--dataset", type=str, default="cifar10", help="dataset[cifar10&100, svhn, fmnist"
-)
+parser.add_argument('--data', type=str, default='../../data', help='location of the data corpus')
+parser.add_argument('--dataset', type=str, default='cifar10', help='dataset[cifar10&100, svhn, fmnist')
 
 ##################################### model setting #################################################
 parser.add_argument(

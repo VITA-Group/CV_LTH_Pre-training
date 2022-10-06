@@ -25,6 +25,7 @@ import torchvision.datasets as datasets
 from torch.utils.data.sampler import SubsetRandomSampler
 from utils import *
 from pruning_utils import *
+import wandb
 
 parser = argparse.ArgumentParser(description='PyTorch Evaluation Tickets')
 
@@ -60,11 +61,19 @@ parser.add_argument('--conv1', action="store_true", help="whether prune conv1")
 parser.add_argument('--load_all', action="store_true", help="whether loading all weight in pretrained model")
 parser.add_argument('--reverse_mask', action="store_true", help="whether using reverse mask")
 
+def update_args(args, config_dict):
+    for key, val in config_dict.items():
+        setattr(args, key, val)
+
 def main():
 
     best_sa = 0
     args = parser.parse_args()
     print(args)
+
+    wandb_config = vars(args)
+    run = wandb.init(project="downstream", entity="828w", config=wandb_config)
+    update_args(args, dict(run.config))
 
     print('*'*50)
     print('Dataset: {}'.format(args.dataset))
@@ -94,6 +103,15 @@ def main():
     all_result['train'] = []
     all_result['test_ta'] = []
     all_result['ta'] = []
+
+    run.log(
+        {
+            "train_acc": acc,
+            "val_acc": tacc,
+            "test_acc": test_tacc,
+            "remain_weight": remain_weight,
+        }
+    )
 
     start_epoch = 0
     remain_weight = check_sparsity(model, conv1=args.conv1)
@@ -135,15 +153,18 @@ def main():
                 'result': all_result
             }, is_SA_best=False, save_path=args.save_dir)
 
-        plt.plot(all_result['train'], label='train_acc')
-        plt.plot(all_result['ta'], label='val_acc')
-        plt.plot(all_result['test_ta'], label='test_acc')
-        plt.legend()
-        plt.savefig(os.path.join(args.save_dir, 'net_train.png'))
-        plt.close()
+        # Fixme: has caused an error randomly
+        # plt.plot(all_result['train'], label='train_acc')
+        # plt.plot(all_result['ta'], label='val_acc')
+        # plt.plot(all_result['test_ta'], label='test_acc')
+        # plt.legend()
+        # plt.savefig(os.path.join(args.save_dir, 'net_train.png'))
+        # plt.close()
 
     check_sparsity(model, conv1=args.conv1)
     print('* best SA={}'.format(all_result['test_ta'][np.argmax(np.array(all_result['ta']))]))
+    run.log({"best_SA": all_result["test_ta"][np.argmax(np.array(all_result["ta"]))]})
+    run.finish()
 
 
 if __name__ == '__main__':

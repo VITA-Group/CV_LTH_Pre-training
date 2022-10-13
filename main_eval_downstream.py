@@ -101,7 +101,7 @@ def main():
 
     print(args)
     wandb_config = vars(args)
-    run = wandb.init(project="downstream_v3", entity="828w", config=wandb_config)
+    run = wandb.init(project="downstream_v2", entity="828w", config=wandb_config)
     update_args(args, dict(run.config))
     print("*" * 50)
     print("Dataset: {}".format(args.dataset))

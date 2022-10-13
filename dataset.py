@@ -9,6 +9,19 @@ __all__ = [
     "fashionmnist_dataloaders",
 ]
 
+def sample_dataset(dataset, per):
+    random.seed(1234)
+    all_idxs = list()
+    for i in range(10):
+        idxs = np.where(np.array(dataset['targets'])==i)[0].tolist()
+        all_idxs += random.sample(idxs, 10)
+    
+    random.shuffle(all_idxs)
+    
+    dataset['targets'] = np.array(dataset['targets'])[all_idxs].tolist()
+    dataset['data'] = np.array(dataset['data'])[all_idxs]
+    return dataset
+
 # def cifar10_dataloaders(batch_size=64, data_dir = 'datasets/cifar10'):
 
 #     normalize = transforms.Normalize(mean=[0.4914, 0.4822, 0.4465], std=[0.2023, 0.1994, 0.2010])

@@ -58,34 +58,29 @@ if not os.path.exists(output_dir):
     os.makedirs(output_dir)
 print("Output Directory: %s" % output_dir)
 
-weights_dir = "/fs/vulcan-projects/sailon_root/Sonaal/fsl/CV_LTH_Pre-training/imgnet_152"
+weights_dir = "/fs/vulcan-projects/sailon_root/Sonaal/fsl/CV_LTH_Pre-training/imgnet2"
 
-datasets = ['cifar10', 'cifar100', 'svhn']
-params = [0.8, 0.6, 0.4, 0.2]
-weights_dir = glob.glob(weights_dir + "/*model*")
-
+count = 0
 with open(f'{args.base_dir}/output/{args.env}/now.txt', "w") as nowfile,\
      open(f'{args.base_dir}/output/{args.env}/log.txt', "w") as output_namefile,\
      open(f'{args.base_dir}/output/{args.env}/err.txt', "w") as error_namefile,\
      open(f'{args.base_dir}/output/{args.env}/name.txt', "w") as namefile:
 
-    count = 0
-    for dataset in datasets:
-        for j, weights in enumerate(weights_dir):
-            num = weights.split("/")[-1].split("model")[0]
-            for i, (ratio) in enumerate(params):
-                now = datetime.now()
-                datetimestr = now.strftime("%m%d_%H%M:%S.%f")
-                name = f'{dataset}_{num}_{ratio}'
-                cmd = f"python -u main_eval_downstream.py --dataset {dataset} --arch resnet152 --save_dir weights/{dataset}_{num}  --dict_key state_dict  --mask_dir {weights} --save_model --few_shot_ratio {ratio}"
+    for i in [5]:
+        
+        now = datetime.now()
+        datetimestr = now.strftime("%m%d_%H%M:%S.%f")
+        name = f'test_{i}'
+        cmd = f"python -m torch.distributed.launch  --nproc_per_node=1  KNN.py --dataset imagenet --data_path /fs/vulcan-datasets/imagenet/  --load_features /fs/cfar-projects/sailon/Sonaal/fsl/KNN/imgnet_{i} --mask_dir /fs/vulcan-projects/sailon_root/Sonaal/fsl/CV_LTH_Pre-training/imgnet2/{i}model_best.pth.tar"
 
-                print(count, name)
-                count += 1
+        print(i, name)
+        count += 1
 
-                nowfile.write(f'{cmd}\n')
-                namefile.write(f'{(os.path.join(output_dir, name))}.log\n')
-                output_namefile.write(f'{(os.path.join(output_dir, name))}_log.txt\n')
-                error_namefile.write(f'{(os.path.join(output_dir, name))}_error.txt\n')
+        nowfile.write(f'{cmd}\n')
+        namefile.write(f'{(os.path.join(output_dir, name))}.log\n')
+        output_namefile.write(f'{(os.path.join(output_dir, name))}_log.txt\n')
+        error_namefile.write(f'{(os.path.join(output_dir, name))}_error.txt\n')
+            
 ###########################################################################
 # Make a {name}.slurm file in the {output_dir} which defines this job.
 #slurm_script_path = os.path.join(output_dir, '%s.slurm' % name)
@@ -96,11 +91,11 @@ slurm_command = "sbatch %s" % slurm_script_path
 # Make the .slurm file
 with open(slurm_script_path, 'w') as slurmfile:
     slurmfile.write("#!/bin/bash\n")
-    slurmfile.write(f"#SBATCH --array=1-{len(params) * len(weights_dir) * len(datasets) }\n")
+    slurmfile.write(f"#SBATCH --array=1-{count}\n")
     slurmfile.write("#SBATCH --output=/dev/null\n")
     slurmfile.write("#SBATCH --error=/dev/null\n")
     slurmfile.write("#SBATCH --requeue\n")
-    slurmfile.write("#SBATCH --exclude=vulcan30,vulcan31,vulcan32,vulcan24\n")
+    slurmfile.write("#SBATCH --exclude=vulcan30,vulcan31,vulcan32,vulcan24,vulcan29\n")
     # slurmfile.write("#SBATCH --exclude=vulcan24\n")
     # slurmfile.write("#SBATCH --exclude=vulcan[00-23]\n")
 
@@ -121,6 +116,7 @@ with open(slurm_script_path, 'w') as slurmfile:
         else:
             raise ValueError("Specify the gpus for scavenger")
     else:
+       
         slurmfile.write("#SBATCH --account=abhinav\n")
         slurmfile.write("#SBATCH --qos=%s\n" % args.qos)
         slurmfile.write("#SBATCH --time=%d:00:00\n" % args.nhrs)

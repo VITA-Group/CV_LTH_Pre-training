@@ -75,29 +75,14 @@ def cifar10_dataloaders(batch_size=64, data_dir="datasets/cifar10", subset_ratio
     )
     test_set = CIFAR10(data_dir, train=False, transform=test_transform, download=True)
 
-    # print sizes of the datasets
-    print("_____________Dataset Sizes_____________")
-    print("train_set size: ", len(train_set))
-    print("val_set size: ", len(val_set))
-    print("test_set size: ", len(test_set))
-
-    train_loader = DataLoader(
-        train_set,
-        batch_size=batch_size,
-        shuffle=True,
-        num_workers=2,
-        drop_last=True,
-        pin_memory=True,
-    )
-    val_loader = DataLoader(
-        val_set, batch_size=batch_size, shuffle=False, num_workers=2, pin_memory=True
-    )
-    test_loader = DataLoader(
-        test_set, batch_size=batch_size, shuffle=False, num_workers=2, pin_memory=True
-    )
+    train_loader = DataLoader(train_set, batch_size=batch_size, shuffle=True, num_workers=2,
+                                drop_last=True, pin_memory=True)
+    val_loader = DataLoader(val_set, batch_size=batch_size, shuffle=False, num_workers=2, pin_memory=True)
+    test_loader = DataLoader(test_set, batch_size=batch_size, shuffle=False, num_workers=2, pin_memory=True)
 
     return train_loader, val_loader, test_loader
 
+def cifar100_dataloaders(batch_size=64, data_dir = 'datasets/cifar100',ratio=1):
 
 def cifar100_dataloaders(batch_size=64, data_dir="datasets/cifar100", subset_ratio = 1):
 
@@ -125,20 +110,10 @@ def cifar100_dataloaders(batch_size=64, data_dir="datasets/cifar100", subset_rat
     )
     test_set = CIFAR100(data_dir, train=False, transform=test_transform, download=True)
 
-    train_loader = DataLoader(
-        train_set,
-        batch_size=batch_size,
-        shuffle=True,
-        num_workers=2,
-        drop_last=True,
-        pin_memory=True,
-    )
-    val_loader = DataLoader(
-        val_set, batch_size=batch_size, shuffle=False, num_workers=2, pin_memory=True
-    )
-    test_loader = DataLoader(
-        test_set, batch_size=batch_size, shuffle=False, num_workers=2, pin_memory=True
-    )
+    train_loader = DataLoader(train_set, batch_size=batch_size, shuffle=True, num_workers=2,
+                                drop_last=True, pin_memory=True)
+    val_loader = DataLoader(val_set, batch_size=batch_size, shuffle=False, num_workers=2, pin_memory=True)
+    test_loader = DataLoader(test_set, batch_size=batch_size, shuffle=False, num_workers=2, pin_memory=True)
 
     return train_loader, val_loader, test_loader
 
@@ -163,41 +138,43 @@ def svhn_dataloaders(batch_size=64, data_dir = 'datasets/svhn', subset_ratio=1):
     val_loader = DataLoader(val_set, batch_size=batch_size, shuffle=False, num_workers=2, pin_memory=True)
     test_loader = DataLoader(test_set, batch_size=batch_size, shuffle=False, num_workers=2, pin_memory=True)
 
+    test_transform = transforms.Compose([
+        transforms.ToTensor(),
+        normalize
+    ])
+
+    train_set = Subset(SVHN(data_dir, split='train', transform=train_transform, download=True),list(range(68257)))
+    val_set = Subset(SVHN(data_dir, split='train', transform=train_transform, download=True),list(range(68257,73257)))
+    test_set = SVHN(data_dir, split='test', transform=test_transform, download=True)
+            
+    train_loader = DataLoader(train_set, batch_size=batch_size, shuffle=True, num_workers=2, drop_last=True, pin_memory=True)
+    val_loader = DataLoader(val_set, batch_size=batch_size, shuffle=False, num_workers=2, pin_memory=True)
+    test_loader = DataLoader(test_set, batch_size=batch_size, shuffle=False, num_workers=2, pin_memory=True)
+
     return train_loader, val_loader, test_loader
 
-
-def fashionmnist_dataloaders(batch_size=64, data_dir="datasets/fashionmnist"):
-
+def fashionmnist_dataloaders(batch_size=64, data_dir = 'datasets/fashionmnist'):
+    
     normalize = transforms.Normalize(mean=[0.1436], std=[0.1609])
-    train_transform = transforms.Compose([transforms.ToTensor(), normalize])
+    train_transform = transforms.Compose([
+        transforms.ToTensor(),
+        normalize
+    ])
 
-    test_transform = transforms.Compose([transforms.ToTensor(), normalize])
+    test_transform = transforms.Compose([
+        transforms.ToTensor(),
+        normalize
+    ])
 
-    train_set = Subset(
-        FashionMNIST(data_dir, train=True, transform=train_transform, download=True),
-        list(range(55000)),
-    )
-    val_set = Subset(
-        FashionMNIST(data_dir, train=True, transform=test_transform, download=True),
-        list(range(55000, 60000)),
-    )
-    test_set = FashionMNIST(
-        data_dir, train=False, transform=test_transform, download=True
-    )
+    train_set = Subset(FashionMNIST(data_dir, train=True, transform=train_transform, download=True), list(range(55000)))
+    val_set = Subset(FashionMNIST(data_dir, train=True, transform=test_transform, download=True), list(range(55000, 60000)))
+    test_set = FashionMNIST(data_dir, train=False, transform=test_transform, download=True)
 
-    train_loader = DataLoader(
-        train_set,
-        batch_size=batch_size,
-        shuffle=True,
-        num_workers=2,
-        drop_last=True,
-        pin_memory=True,
-    )
-    val_loader = DataLoader(
-        val_set, batch_size=batch_size, shuffle=False, num_workers=2, pin_memory=True
-    )
-    test_loader = DataLoader(
-        test_set, batch_size=batch_size, shuffle=False, num_workers=2, pin_memory=True
-    )
+    train_loader = DataLoader(train_set, batch_size=batch_size, shuffle=True, num_workers=2, drop_last=True, pin_memory=True)
+    val_loader = DataLoader(val_set, batch_size=batch_size, shuffle=False, num_workers=2, pin_memory=True)
+    test_loader = DataLoader(test_set, batch_size=batch_size, shuffle=False, num_workers=2, pin_memory=True)
 
     return train_loader, val_loader, test_loader
+
+
+

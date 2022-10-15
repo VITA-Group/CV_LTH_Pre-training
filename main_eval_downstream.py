@@ -1,16 +1,16 @@
-'''
+"""
 load lottery tickets and evaluation 
 support datasets: cifar10, Fashionmnist, cifar100
-'''
+"""
 
 import os
 import pdb
-import time 
+import time
 import pickle
 import random
 import shutil
 import argparse
-import numpy as np  
+import numpy as np
 from copy import deepcopy
 import matplotlib.pyplot as plt
 import torch
@@ -27,31 +27,47 @@ from utils import *
 from pruning_utils import *
 import wandb
 
-parser = argparse.ArgumentParser(description='PyTorch Evaluation Tickets')
+parser = argparse.ArgumentParser(description="PyTorch Evaluation Tickets")
 
 ##################################### data setting #################################################
-parser.add_argument('--data', type=str, default='../../data', help='location of the data corpus')
-parser.add_argument('--dataset', type=str, default='cifar10', help='dataset[cifar10&100, svhn, fmnist')
+parser.add_argument(
+    "--data", type=str, default="../../data", help="location of the data corpus"
+)
+parser.add_argument(
+    "--dataset", type=str, default="cifar10", help="dataset[cifar10&100, svhn, fmnist"
+)
 
 ##################################### model setting #################################################
-parser.add_argument('--arch', type=str, default='resnet50', help='model architecture[resnet18, resnet50, resnet152]')
+parser.add_argument(
+    "--arch",
+    type=str,
+    default="resnet50",
+    help="model architecture[resnet18, resnet50, resnet152]",
+)
 
 ##################################### basic setting #################################################
-parser.add_argument('--seed', default=None, type=int, help='random seed')
-parser.add_argument('--save_dir', help='The directory used to save the trained models', default=None, type=str)
-parser.add_argument('--gpu', type=int, default=0, help='gpu device id')
-parser.add_argument('--save_model', action="store_true", help="whether saving model")
-parser.add_argument('--print_freq', default=50, type=int, help='print frequency')
-parser.add_argument('--subratio', default=1, type=float, help='dataset split ratio')
+parser.add_argument("--seed", default=None, type=int, help="random seed")
+parser.add_argument(
+    "--save_dir",
+    help="The directory used to save the trained models",
+    default=None,
+    type=str,
+)
+parser.add_argument("--gpu", type=int, default=0, help="gpu device id")
+parser.add_argument("--save_model", action="store_true", help="whether saving model")
+parser.add_argument("--print_freq", default=50, type=int, help="print frequency")
+parser.add_argument("--subratio", default=1, type=float, help="dataset split ratio")
 
 ##################################### training setting #################################################
-parser.add_argument('--batch_size', type=int, default=128, help='batch size')
-parser.add_argument('--lr', default=0.1, type=float, help='initial learning rate')
-parser.add_argument('--momentum', default=0.9, type=float, help='momentum')
-parser.add_argument('--weight_decay', default=2e-4, type=float, help='weight decay')
-parser.add_argument('--epochs', default=182, type=int, help='number of total epochs to run')
-parser.add_argument('--warmup', default=1, type=int, help='warm up epochs')
-parser.add_argument('--decreasing_lr', default='91,136', help='decreasing strategy')
+parser.add_argument("--batch_size", type=int, default=128, help="batch size")
+parser.add_argument("--lr", default=0.1, type=float, help="initial learning rate")
+parser.add_argument("--momentum", default=0.9, type=float, help="momentum")
+parser.add_argument("--weight_decay", default=2e-4, type=float, help="weight decay")
+parser.add_argument(
+    "--epochs", default=182, type=int, help="number of total epochs to run"
+)
+parser.add_argument("--warmup", default=1, type=int, help="warm up epochs")
+parser.add_argument("--decreasing_lr", default="91,136", help="decreasing strategy")
 
 ##################################### Pruning setting #################################################
 parser.add_argument(
@@ -71,13 +87,26 @@ parser.add_argument(
     "--reverse_mask", action="store_true", help="whether using reverse mask"
 )
 parser.add_argument(
-    "--few_shot_ratio", default=1, type=float, help="ratio of few shot data"
+    "--few_shot_ratio",
+    default=None,
+    type=float,
+    help="ratio of few shot data",
+    required=False,
+)
+
+parser.add_argument(
+    "--number_of_samples",
+    default=None,
+    type=int,
+    help="number of samples in the subset, balanced across classes",
+    required=False,
 )
 
 
 def update_args(args, config_dict):
     for key, val in config_dict.items():
         setattr(args, key, val)
+
 
 def main():
 
@@ -86,53 +115,80 @@ def main():
     print(args)
 
     wandb_config = vars(args)
-    run = wandb.init(project="downstream_v2", entity="828w", config=wandb_config)
+    run = wandb.init(project="downstream", entity="828w", config=wandb_config)
     update_args(args, dict(run.config))
+    if args.number_of_samples is None and args.few_shot_ratio is None:
+        raise ValueError("Either number_of_samples or few_shot_ratio must be set.")
+    if args.number_of_samples is not None and args.few_shot_ratio is not None:
+        raise ValueError("Only one of number_of_samples or few_shot_ratio must be set.")
 
-    print('*'*50)
-    print('Dataset: {}'.format(args.dataset))
-    print('Model: {}'.format(args.arch))
-    print('*'*50)     
+    print("*" * 50)
+    print("Dataset: {}".format(args.dataset))
+    print("Model: {}".format(args.arch))
+    print("*" * 50)
 
     torch.cuda.set_device(int(args.gpu))
     os.makedirs(args.save_dir, exist_ok=True)
     if args.seed:
         setup_seed(args.seed)
 
-    # prepare dataset 
+    # prepare dataset
     model, train_loader, val_loader, test_loader = setup_model_dataset(args)
+
+    # check datasets
+
+    run.summary["number_of_classes"] = np.unique(
+        train_loader.dataset.dataset.targets
+    ).shape[0]
+    run.summary["train_size"] = len(train_loader.dataset)
+    run.summary["val_size"] = len(val_loader.dataset)
+    run.summary["test_size"] = len(test_loader.dataset)
+    print(
+        "Dataset\n{} classes, {} train, {} val, {} test samples".format(
+            run.summary["number_of_classes"],
+            run.summary["train_size"],
+            run.summary["val_size"],
+            run.summary["test_size"],
+        )
+    )
+
+    if args.number_of_samples is not None:
+        assert len(train_loader.dataset) - args.number_of_samples < 10
+        # check if distribution per class is balanced
+        classes, counts = np.unique(train_loader.dataset.targets, return_counts=True)
+        # assert that counts within 1 of each other
+        assert np.max(counts) - np.min(counts) <= 1
+        run.log({"balanced": True})
+
     model.cuda()
 
-    #loading tickets
+    # loading tickets
     load_ticket(model, args)
 
     criterion = nn.CrossEntropyLoss()
-    decreasing_lr = list(map(int, args.decreasing_lr.split(',')))
-    optimizer = torch.optim.SGD(model.parameters(), args.lr,
-                                momentum=args.momentum,
-                                weight_decay=args.weight_decay)
-    scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones=decreasing_lr, gamma=0.1)
+    decreasing_lr = list(map(int, args.decreasing_lr.split(",")))
+    optimizer = torch.optim.SGD(
+        model.parameters(),
+        args.lr,
+        momentum=args.momentum,
+        weight_decay=args.weight_decay,
+    )
+    scheduler = torch.optim.lr_scheduler.MultiStepLR(
+        optimizer, milestones=decreasing_lr, gamma=0.1
+    )
 
     all_result = {}
-    all_result['train'] = []
-    all_result['test_ta'] = []
-    all_result['ta'] = []
-
-    run.log(
-        {
-            "train_acc": acc,
-            "val_acc": tacc,
-            "test_acc": test_tacc,
-            "remain_weight": remain_weight,
-        }
-    )
+    all_result["train"] = []
+    all_result["test_ta"] = []
+    all_result["ta"] = []
 
     start_epoch = 0
     remain_weight = check_sparsity(model, conv1=args.conv1)
+    all_result["remain_weight_0"] = remain_weight
 
     for epoch in range(start_epoch, args.epochs):
 
-        print(optimizer.state_dict()['param_groups'][0]['lr'])
+        print(optimizer.state_dict()["param_groups"][0]["lr"])
         acc = train(train_loader, model, criterion, optimizer, epoch, args)
 
         # evaluate on validation set
@@ -142,30 +198,34 @@ def main():
 
         scheduler.step()
 
-        all_result['train'].append(acc)
-        all_result['ta'].append(tacc)
-        all_result['test_ta'].append(test_tacc)
-        all_result['remain_weight'] = remain_weight
+        all_result["train"].append(acc)
+        all_result["ta"].append(tacc)
+        all_result["test_ta"].append(test_tacc)
+        all_result["remain_weight"] = remain_weight
 
         # remember best prec@1 and save checkpoint
-        is_best_sa = tacc  > best_sa
+        is_best_sa = tacc > best_sa
         best_sa = max(tacc, best_sa)
 
         if args.save_model:
 
-            save_checkpoint({
-                'result': all_result,
-                'epoch': epoch + 1,
-                'state_dict': model.state_dict(),
-                'best_sa': best_sa,
-                'optimizer': optimizer.state_dict(),
-                'scheduler': scheduler.state_dict()
-            }, is_SA_best=is_best_sa, save_path=args.save_dir)
+            save_checkpoint(
+                {
+                    "result": all_result,
+                    "epoch": epoch + 1,
+                    "state_dict": model.state_dict(),
+                    "best_sa": best_sa,
+                    "optimizer": optimizer.state_dict(),
+                    "scheduler": scheduler.state_dict(),
+                },
+                is_SA_best=is_best_sa,
+                save_path=args.save_dir,
+            )
 
         else:
-            save_checkpoint({
-                'result': all_result
-            }, is_SA_best=False, save_path=args.save_dir)
+            save_checkpoint(
+                {"result": all_result}, is_SA_best=False, save_path=args.save_dir
+            )
 
         # Fixme: has caused an error randomly
         # plt.plot(all_result['train'], label='train_acc')
@@ -176,12 +236,14 @@ def main():
         # plt.close()
 
     check_sparsity(model, conv1=args.conv1)
-    print('* best SA={}'.format(all_result['test_ta'][np.argmax(np.array(all_result['ta']))]))
+    print(
+        "* best SA={}".format(
+            all_result["test_ta"][np.argmax(np.array(all_result["ta"]))]
+        )
+    )
     run.log({"best_SA": all_result["test_ta"][np.argmax(np.array(all_result["ta"]))]})
     run.finish()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
-
-

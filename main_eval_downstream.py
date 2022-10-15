@@ -115,7 +115,7 @@ def main():
     print(args)
 
     wandb_config = vars(args)
-    run = wandb.init(project="downstream", entity="828w", config=wandb_config)
+    run = wandb.init(project="downstream_v2", entity="828w", config=wandb_config)
     update_args(args, dict(run.config))
     if args.number_of_samples is None and args.few_shot_ratio is None:
         raise ValueError("Either number_of_samples or few_shot_ratio must be set.")

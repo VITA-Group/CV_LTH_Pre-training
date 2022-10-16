@@ -54,7 +54,7 @@ parser.add_argument(
     type=str,
 )
 parser.add_argument("--gpu", type=int, default=0, help="gpu device id")
-parser.add_argument("--save_model", action="store_true", help="whether saving model")
+parser.add_argument("--save_model", action="store_false", help="whether saving model")
 parser.add_argument("--print_freq", default=50, type=int, help="print frequency")
 parser.add_argument("--subratio", default=1, type=float, help="dataset split ratio")
 
@@ -115,7 +115,7 @@ def main():
     print(args)
 
     wandb_config = vars(args)
-    run = wandb.init(project="downstream_v2", entity="828w", config=wandb_config)
+    run = wandb.init(project="downstream", entity="828w", config=wandb_config)
     update_args(args, dict(run.config))
     if args.number_of_samples is None and args.few_shot_ratio is None:
         raise ValueError("Either number_of_samples or few_shot_ratio must be set.")
@@ -123,6 +123,7 @@ def main():
         raise ValueError("Only one of number_of_samples or few_shot_ratio must be set.")
 
     print("*" * 50)
+    print("Save_model: ", args.save_model)
     print("Dataset: {}".format(args.dataset))
     print("Model: {}".format(args.arch))
     print("*" * 50)
@@ -186,6 +187,7 @@ def main():
     remain_weight = check_sparsity(model, conv1=args.conv1)
     all_result["remain_weight_0"] = remain_weight
 
+    run.log({"remain_weight_0": remain_weight})
     for epoch in range(start_epoch, args.epochs):
 
         print(optimizer.state_dict()["param_groups"][0]["lr"])
@@ -197,6 +199,15 @@ def main():
         test_tacc = test(test_loader, model, criterion, args)
 
         scheduler.step()
+
+        run.log(
+            {
+                "train_acc": acc,
+                "val_acc": tacc,
+                "test_acc": test_tacc,
+                "remain_weight": remain_weight,
+            }
+        )
 
         all_result["train"].append(acc)
         all_result["ta"].append(tacc)

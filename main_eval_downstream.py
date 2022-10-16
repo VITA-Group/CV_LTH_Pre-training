@@ -185,7 +185,7 @@ def main():
 
     start_epoch = 0
     remain_weight = check_sparsity(model, conv1=args.conv1)
-    all_result["remain_weight_0"] = remain_weight
+    all_result["remain_weight_0"] = int(remain_weight)
 
     run.log({"remain_weight_0": remain_weight})
     for epoch in range(start_epoch, args.epochs):

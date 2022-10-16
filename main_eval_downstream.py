@@ -54,7 +54,7 @@ parser.add_argument(
     type=str,
 )
 parser.add_argument("--gpu", type=int, default=0, help="gpu device id")
-parser.add_argument("--save_model", action="store_false", help="whether saving model")
+parser.add_argument("--save_model", action="store_true", help="whether saving model")
 parser.add_argument("--print_freq", default=50, type=int, help="print frequency")
 parser.add_argument("--subratio", default=1, type=float, help="dataset split ratio")
 

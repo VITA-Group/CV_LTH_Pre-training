@@ -102,6 +102,12 @@ parser.add_argument(
     required=False,
 )
 
+parser.add_argument(
+    "--balanced",
+    action="store_true",
+    help="whether loading all weight in pretrained model",
+)
+
 
 def update_args(args, config_dict):
     for key, val in config_dict.items():
@@ -156,10 +162,14 @@ def main():
     if args.number_of_samples is not None:
         assert len(train_loader.dataset) - args.number_of_samples < 10
         # check if distribution per class is balanced
-        classes, counts = np.unique(train_loader.dataset.targets, return_counts=True)
-        # assert that counts within 1 of each other
-        assert np.max(counts) - np.min(counts) <= 1
-        run.log({"balanced": True})
+        if args.balanced:
+
+            classes, counts = np.unique(train_loader.dataset.targets, return_counts=True)
+            # assert that counts within 1 of each other
+            assert np.max(counts) - np.min(counts) <= 1
+            run.log({"balanced": True})
+        else:
+            run.log({"balanced": False})
 
     model.cuda()
 

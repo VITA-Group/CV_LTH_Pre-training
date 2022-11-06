@@ -85,7 +85,8 @@ def cifar10_dataloaders(
             data_dir, train=True, transform=train_transform, download=True
         )
         val_set = CIFAR10(data_dir, train=True, transform=test_transform, download=True)
-        val_set = Subset(val_set, list(range(45000, 50000)))
+        val_set = Subset(val_set, list(range(4000, 50000)))
+        train_set = Subset(train_set, list(range(4000)))
         if balanced:
             train_set, val_set = get_balanced_subset(
                 train_set, val_set, number_of_samples, val_ratio=0.2
@@ -145,7 +146,8 @@ def cifar100_dataloaders(
         val_set = CIFAR100(
             data_dir, train=True, transform=test_transform, download=True
         )
-        val_set = Subset(val_set, list(range(45000, 50000)))
+        val_set = Subset(val_set, list(range(40000, 50000)))
+        train_set = Subset(train_set, list(range(40000)))
         if balanced:
             train_set, val_set = get_balanced_subset(
                 train_set, val_set, number_of_samples, val_ratio=val_ratio
@@ -183,7 +185,7 @@ def svhn_dataloaders(
     val_ratio=0.2,
     balanced=False,
 ):
-
+    raise ValueError("svhn code needs to be updated")
     normalize = transforms.Normalize(
         mean=[0.4377, 0.4438, 0.4728], std=[0.1201, 0.1231, 0.1052]
     )

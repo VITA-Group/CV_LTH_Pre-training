@@ -192,7 +192,7 @@ def caltech256_dataloaders(
     )
     train_transform = transforms.Compose(
         [
-            transforms.RandomCrop(224, padding=4),
+            transforms.RandomCrop(224, padding=16),
             transforms.RandomHorizontalFlip(),
             transforms.ToTensor(),
             normalize,
@@ -255,7 +255,7 @@ def caltech101_dataloaders(
     )
     train_transform = transforms.Compose(
         [
-            transforms.RandomCrop(224, padding=4),
+            transforms.RandomCrop(224, padding=16),
             transforms.RandomHorizontalFlip(),
             transforms.ToTensor(),
             normalize,

@@ -64,6 +64,21 @@ def setup_model_dataset(args):
             subset_ratio=args.few_shot_ratio,
             balanced=args.balanced,
         )
+    elif args.dataset == "caltech101":
+        classes = 101
+        train_loader, val_loader, test_loader = caltech101_dataloaders(
+            batch_size=args.batch_size,
+            data_dir=args.data,
+            subset_ratio=args.few_shot_ratio,
+        )
+
+    elif args.dataset == "caltech256":
+        classes = 256
+        train_loader, val_loader, test_loader = caltech256_dataloaders(
+            batch_size=args.batch_size,
+            data_dir=args.data,
+            subset_ratio=args.few_shot_ratio,
+        )
     else:
         raise ValueError("Unknown Dataset")
 

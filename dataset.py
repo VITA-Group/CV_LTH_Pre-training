@@ -1,5 +1,5 @@
 from torchvision import transforms
-from torchvision.datasets import CIFAR10, CIFAR100, SVHN, FashionMNIST
+from torchvision.datasets import CIFAR10, CIFAR100, SVHN, FashionMNIST, Caltech256,Caltech101
 from torch.utils.data import DataLoader, Subset
 import numpy as np
 
@@ -15,6 +15,8 @@ __all__ = [
     "cifar100_dataloaders",
     "svhn_dataloaders",
     "fashionmnist_dataloaders",
+    "caltech101_dataloaders",
+    "caltech256_dataloaders"
 ]
 
 
@@ -176,6 +178,130 @@ def cifar100_dataloaders(
 
     return train_loader, val_loader, test_loader
 
+
+def caltech256_dataloaders(
+    batch_size=64,
+    data_dir="datasets/caltech256",
+    subset_ratio=None,
+    number_of_samples=None,
+    val_ratio=0.2,
+):
+
+    normalize = transforms.Normalize(
+        mean=[0.5071, 0.4866, 0.4409], std=[0.2009, 0.1984, 0.2023]
+    )
+    train_transform = transforms.Compose(
+        [
+            transforms.RandomCrop(224, padding=4),
+            transforms.RandomHorizontalFlip(),
+            transforms.ToTensor(),
+            normalize,
+        ]
+    )
+
+    test_transform = transforms.Compose([transforms.ToTensor(), normalize])
+    if subset_ratio is not None:
+        train_set = Subset(
+            Caltech256(data_dir, train=True, transform=train_transform, download=True),
+            list(range(int(24486 * subset_ratio))),
+        )
+        val_set = Subset(
+            Caltech256(data_dir, train=True, transform=test_transform, download=True),
+            list(range(24486, 30607)),
+        )
+
+    elif number_of_samples is not None:
+        train_set = Caltech256(
+            data_dir, train=True, transform=train_transform, download=True
+        )
+        val_set = Caltech256(
+            data_dir, train=True, transform=test_transform, download=True
+        )
+        train_set, val_set = get_balanced_subset(
+            train_set, val_set, number_of_samples, val_ratio=0.2
+        )
+
+    test_set = Caltech256(data_dir, train=False, transform=test_transform, download=True)
+
+    train_loader = DataLoader(
+        train_set,
+        batch_size=batch_size,
+        shuffle=True,
+        num_workers=2,
+        drop_last=True,
+        pin_memory=True,
+    )
+    val_loader = DataLoader(
+        val_set, batch_size=batch_size, shuffle=False, num_workers=2, pin_memory=True
+    )
+    test_loader = DataLoader(
+        test_set, batch_size=batch_size, shuffle=False, num_workers=2, pin_memory=True
+    )
+
+    return train_loader, val_loader, test_loader
+
+
+
+def caltech101_dataloaders(
+    batch_size=64,
+    data_dir="datasets/caltech101",
+    subset_ratio=None,
+    number_of_samples=None,
+    val_ratio=0.2,
+):
+
+    normalize = transforms.Normalize(
+        mean=[0.5071, 0.4866, 0.4409], std=[0.2009, 0.1984, 0.2023]
+    )
+    train_transform = transforms.Compose(
+        [
+            transforms.RandomCrop(224, padding=4),
+            transforms.RandomHorizontalFlip(),
+            transforms.ToTensor(),
+            normalize,
+        ]
+    )
+
+    test_transform = transforms.Compose([transforms.ToTensor(), normalize])
+    if subset_ratio is not None:
+        train_set = Subset(
+            Caltech101(data_dir, train=True, transform=train_transform, download=True),
+            list(range(int(7317  * subset_ratio))),
+        )
+        val_set = Subset(
+            Caltech101(data_dir, train=True, transform=test_transform, download=True),
+            list(range(7317, 9146)),
+        )
+
+    elif number_of_samples is not None:
+        train_set = Caltech101(
+            data_dir, train=True, transform=train_transform, download=True
+        )
+        val_set = Caltech101(
+            data_dir, train=True, transform=test_transform, download=True
+        )
+        train_set, val_set = get_balanced_subset(
+            train_set, val_set, number_of_samples, val_ratio=0.2
+        )
+
+    test_set = Caltech101(data_dir, train=False, transform=test_transform, download=True)
+
+    train_loader = DataLoader(
+        train_set,
+        batch_size=batch_size,
+        shuffle=True,
+        num_workers=2,
+        drop_last=True,
+        pin_memory=True,
+    )
+    val_loader = DataLoader(
+        val_set, batch_size=batch_size, shuffle=False, num_workers=2, pin_memory=True
+    )
+    test_loader = DataLoader(
+        test_set, batch_size=batch_size, shuffle=False, num_workers=2, pin_memory=True
+    )
+
+    return train_loader, val_loader, test_loader
 
 def svhn_dataloaders(
     batch_size=64,

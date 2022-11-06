@@ -34,7 +34,7 @@ parser.add_argument(
     "--data", type=str, default="../../data", help="location of the data corpus"
 )
 parser.add_argument(
-    "--dataset", type=str, default="cifar10", help="dataset[cifar10&100, svhn, fmnist"
+    "--dataset", type=str, default="cifar10", help="dataset[cifar10&100, svhn, fmnist,caltech101, caltech256]"
 )
 
 ##################################### model setting #################################################
@@ -54,7 +54,7 @@ parser.add_argument(
     type=str,
 )
 parser.add_argument("--gpu", type=int, default=0, help="gpu device id")
-parser.add_argument("--save_model", action="store_true", help="whether saving model")
+parser.add_argument("--save_model", action="store_false", help="whether saving model")
 parser.add_argument("--print_freq", default=50, type=int, help="print frequency")
 parser.add_argument("--subratio", default=1, type=float, help="dataset split ratio")
 
@@ -201,13 +201,13 @@ def main():
     for epoch in range(start_epoch, args.epochs):
 
         print(optimizer.state_dict()["param_groups"][0]["lr"])
-        acc = train(train_loader, model, criterion, optimizer, epoch, args)
+        acc = train(train_loader, model, crit
+        test_tacc = test(test_loader, model, criterion, args)
+erion, optimizer, epoch, args)
 
         # evaluate on validation set
         tacc = test(val_loader, model, criterion, args)
         # evaluate on test set
-        test_tacc = test(test_loader, model, criterion, args)
-
         scheduler.step()
 
         run.log(

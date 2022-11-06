@@ -29,19 +29,33 @@ from pruning_utils import *
 parser = argparse.ArgumentParser(description='PyTorch Iterative Pruning')
 
 ##################################### data setting #################################################
-parser.add_argument('--data', type=str, default='../data', help='location of the data corpus')
-parser.add_argument('--dataset', type=str, default='cifar10', help='dataset[cifar10&100, svhn, fmnist')
+parser.add_argument(
+    "--data", type=str, default="../../data", help="location of the data corpus"
+)
+parser.add_argument(
+    "--dataset", type=str, default="cifar10", help="dataset[cifar10&100, svhn, fmnist,caltech101, caltech256]"
+)
 
 ##################################### model setting #################################################
-parser.add_argument('--arch', type=str, default='resnet50', help='model architecture[resnet18, resnet50, resnet152]')
+parser.add_argument(
+    "--arch",
+    type=str,
+    default="resnet50",
+    help="model architecture[resnet18, resnet50, resnet152]",
+)
 
 ##################################### basic setting #################################################
-parser.add_argument('--gpu', type=int, default=0, help='gpu device id')
-parser.add_argument('--seed', default=None, type=int, help='random seed')
-parser.add_argument('--resume', action="store_true", help="resume from checkpoint")
-parser.add_argument('--checkpoint', type=str, default=None, help='checkpoint file')
-parser.add_argument('--print_freq', default=50, type=int, help='print frequency')
-parser.add_argument('--save_dir', help='The directory used to save the trained models', default=None, type=str)
+parser.add_argument("--seed", default=None, type=int, help="random seed")
+parser.add_argument(
+    "--save_dir",
+    help="The directory used to save the trained models",
+    default=None,
+    type=str,
+)
+parser.add_argument("--gpu", type=int, default=0, help="gpu device id")
+parser.add_argument("--save_model", action="store_false", help="whether saving model")
+parser.add_argument("--print_freq", default=50, type=int, help="print frequency")
+parser.add_argument("--subratio", default=1, type=float, help="dataset split ratio")
 
 ##################################### training setting #################################################
 parser.add_argument('--batch_size', type=int, default=256, help='batch size')
@@ -61,6 +75,40 @@ parser.add_argument('--pretrained', default=None, type=str, help='pretrained wei
 parser.add_argument('--conv1', action="store_true", help="whether pruning&loading conv1")
 parser.add_argument('--fc', action="store_true", help="whether loading fc")
 parser.add_argument('--rewind_epoch', default=9, type=int, help='rewind checkpoint')
+
+
+parser.add_argument(
+    "--few_shot_ratio",
+    default=None,
+    type=float,
+    help="ratio of few shot data",
+    required=False,
+)
+
+parser.add_argument(
+    "--number_of_samples",
+    default=None,
+    type=int,
+    help="number of samples in the subset, balanced across classes",
+    required=False,
+)
+
+parser.add_argument(
+    "--balanced",
+    action="store_true",
+    help="whether loading all weight in pretrained model",
+)
+
+parser.add_argument(
+    "--balanced",
+    action="store_true",
+    help="whether loading all weight in pretrained model",
+)
+
+
+def update_args(args, config_dict):
+    for key, val in config_dict.items():
+        setattr(args, key, val)
 
 def main():
     best_sa = 0

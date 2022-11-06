@@ -203,11 +203,11 @@ def caltech256_dataloaders(
     if subset_ratio is not None:
         train_set = Subset(
             Caltech256(data_dir, train=True, transform=train_transform, download=True),
-            list(range(int(24486 * subset_ratio))),
+            list(range(int(21425 * subset_ratio))),
         )
         val_set = Subset(
             Caltech256(data_dir, train=True, transform=test_transform, download=True),
-            list(range(24486, 30607)),
+            list(range(21425, 30607)),
         )
 
     elif number_of_samples is not None:
@@ -266,11 +266,11 @@ def caltech101_dataloaders(
     if subset_ratio is not None:
         train_set = Subset(
             Caltech101(data_dir, train=True, transform=train_transform, download=True),
-            list(range(int(7317  * subset_ratio))),
+            list(range(int(6402  * subset_ratio))),
         )
         val_set = Subset(
             Caltech101(data_dir, train=True, transform=test_transform, download=True),
-            list(range(7317, 9146)),
+            list(range(6402, 9146)),
         )
 
     elif number_of_samples is not None:

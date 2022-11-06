@@ -1,5 +1,12 @@
 from torchvision import transforms
-from torchvision.datasets import CIFAR10, CIFAR100, SVHN, FashionMNIST, Caltech256,Caltech101
+from torchvision.datasets import (
+    CIFAR10,
+    CIFAR100,
+    SVHN,
+    FashionMNIST,
+    Caltech256,
+    Caltech101,
+)
 from torch.utils.data import DataLoader, Subset
 import numpy as np
 
@@ -16,7 +23,7 @@ __all__ = [
     "svhn_dataloaders",
     "fashionmnist_dataloaders",
     "caltech101_dataloaders",
-    "caltech256_dataloaders"
+    "caltech256_dataloaders",
 ]
 
 
@@ -50,7 +57,7 @@ def get_balanced_subset(dataset, val_dataset, number_of_samples, val_ratio=0.2):
     return dataset_train, val_dataset
 
 
-def get_random_subset(dataset, number_of_samples, val_ratio=0.2):
+def get_random_subset(dataset, number_of_samples):
     if number_of_samples > len(dataset):
         raise ValueError("number of samples is too large")
     idxs = np.random.choice(len(dataset), number_of_samples, replace=False)
@@ -94,7 +101,7 @@ def cifar10_dataloaders(
                 train_set, val_set, number_of_samples, val_ratio=0.2
             )
         else:
-            train_set = get_random_subset(train_set, number_of_samples, val_ratio=0.2)
+            train_set = get_random_subset(train_set, number_of_samples)
 
     test_set = CIFAR10(data_dir, train=False, transform=test_transform, download=True)
 
@@ -155,9 +162,7 @@ def cifar100_dataloaders(
                 train_set, val_set, number_of_samples, val_ratio=val_ratio
             )
         else:
-            train_set, val_set = get_random_subset(
-                train_set, number_of_samples, val_ratio=val_ratio
-            )
+            train_set, val_set = get_random_subset(train_set, number_of_samples)
 
     test_set = CIFAR100(data_dir, train=False, transform=test_transform, download=True)
 
@@ -185,6 +190,7 @@ def caltech256_dataloaders(
     subset_ratio=None,
     number_of_samples=None,
     val_ratio=0.2,
+    balanced=False,
 ):
 
     normalize = transforms.Normalize(
@@ -201,6 +207,9 @@ def caltech256_dataloaders(
 
     test_transform = transforms.Compose([transforms.ToTensor(), normalize])
     if subset_ratio is not None:
+        raise ValueError("subset ratio is not supported for caltech256")
+
+    elif number_of_samples is not None:
         train_set = Subset(
             Caltech256(data_dir, train=True, transform=train_transform, download=True),
             list(range(int(21425 * subset_ratio))),
@@ -209,19 +218,16 @@ def caltech256_dataloaders(
             Caltech256(data_dir, train=True, transform=test_transform, download=True),
             list(range(21425, 30607)),
         )
+        if balanced:
+            train_set, val_set = get_balanced_subset(
+                train_set, val_set, number_of_samples, val_ratio=val_ratio
+            )
+        else:
+            train_set = get_random_subset(train_set, number_of_samples)
 
-    elif number_of_samples is not None:
-        train_set = Caltech256(
-            data_dir, train=True, transform=train_transform, download=True
-        )
-        val_set = Caltech256(
-            data_dir, train=True, transform=test_transform, download=True
-        )
-        train_set, val_set = get_balanced_subset(
-            train_set, val_set, number_of_samples, val_ratio=0.2
-        )
-
-    test_set = Caltech256(data_dir, train=False, transform=test_transform, download=True)
+    test_set = Caltech256(
+        data_dir, train=False, transform=test_transform, download=True
+    )
 
     train_loader = DataLoader(
         train_set,
@@ -241,13 +247,13 @@ def caltech256_dataloaders(
     return train_loader, val_loader, test_loader
 
 
-
 def caltech101_dataloaders(
     batch_size=64,
     data_dir="datasets/caltech101",
     subset_ratio=None,
     number_of_samples=None,
     val_ratio=0.2,
+    balanced=False,
 ):
 
     normalize = transforms.Normalize(
@@ -264,27 +270,27 @@ def caltech101_dataloaders(
 
     test_transform = transforms.Compose([transforms.ToTensor(), normalize])
     if subset_ratio is not None:
+        raise ValueError("subset ratio is not supported for caltech101")
+
+    elif number_of_samples is not None:
         train_set = Subset(
             Caltech101(data_dir, train=True, transform=train_transform, download=True),
-            list(range(int(6402  * subset_ratio))),
+            list(range(int(6402 * subset_ratio))),
         )
         val_set = Subset(
             Caltech101(data_dir, train=True, transform=test_transform, download=True),
             list(range(6402, 9146)),
         )
+        if balanced:
+            train_set, val_set = get_balanced_subset(
+                train_set, val_set, number_of_samples, val_ratio=0.2
+            )
+        else:
+            train_set = get_random_subset(train_set, number_of_samples)
 
-    elif number_of_samples is not None:
-        train_set = Caltech101(
-            data_dir, train=True, transform=train_transform, download=True
-        )
-        val_set = Caltech101(
-            data_dir, train=True, transform=test_transform, download=True
-        )
-        train_set, val_set = get_balanced_subset(
-            train_set, val_set, number_of_samples, val_ratio=0.2
-        )
-
-    test_set = Caltech101(data_dir, train=False, transform=test_transform, download=True)
+    test_set = Caltech101(
+        data_dir, train=False, transform=test_transform, download=True
+    )
 
     train_loader = DataLoader(
         train_set,
@@ -302,6 +308,7 @@ def caltech101_dataloaders(
     )
 
     return train_loader, val_loader, test_loader
+
 
 def svhn_dataloaders(
     batch_size=64,

@@ -70,6 +70,7 @@ def setup_model_dataset(args):
             batch_size=args.batch_size,
             data_dir=args.data,
             subset_ratio=args.few_shot_ratio,
+            balanced=args.balanced,
         )
 
     elif args.dataset == "caltech256":
@@ -78,6 +79,7 @@ def setup_model_dataset(args):
             batch_size=args.batch_size,
             data_dir=args.data,
             subset_ratio=args.few_shot_ratio,
+            balanced=args.balanced,
         )
     else:
         raise ValueError("Unknown Dataset")

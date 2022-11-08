@@ -1,0 +1,31 @@
+{
+    "os": "Linux-5.15.0-48-generic-x86_64-with-glibc2.17",
+    "python": "3.8.13",
+    "heartbeatAt": "2022-11-07T23:44:19.994156",
+    "startedAt": "2022-11-07T23:44:19.645848",
+    "docker": null,
+    "gpu": "NVIDIA GeForce RTX 3060 Laptop GPU",
+    "gpu_count": 1,
+    "cpu_count": 16,
+    "cuda": null,
+    "args": [
+        "--arch=resnet18",
+        "--dataset=caltech101",
+        "--epoch=100",
+        "--lr=0.0001",
+        "--number_of_samples=1000",
+        "--save_dir=caltech101"
+    ],
+    "state": "running",
+    "program": "main_imp_downstream.py",
+    "codePath": "main_imp_downstream.py",
+    "git": {
+        "remote": "https://github.com/naitri/CV_LTH_Pre-training.git",
+        "commit": "741e76f4b6d990691a160082cadd63c2a803c77e"
+    },
+    "email": "naitrir21@gmail.com",
+    "root": "/home/naitri/Documents/CV_LTH_Pre-training",
+    "host": "naitri-Dell-G15-5515",
+    "username": "naitri",
+    "executable": "/home/naitri/miniconda3/envs/pytorch/bin/python"
+}

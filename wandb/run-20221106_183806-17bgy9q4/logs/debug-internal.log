@@ -1,0 +1,146 @@
+2022-11-06 18:38:06,681 INFO    StreamThr :19365 [internal.py:wandb_internal():88] W&B internal server running at pid: 19365, started at: 2022-11-06 18:38:06.680833
+2022-11-06 18:38:06,685 DEBUG   HandlerThread:19365 [handler.py:handle_request():138] handle_request: status
+2022-11-06 18:38:06,685 DEBUG   SenderThread:19365 [sender.py:send_request():317] send_request: status
+2022-11-06 18:38:06,686 DEBUG   SenderThread:19365 [sender.py:send():303] send: header
+2022-11-06 18:38:06,687 INFO    WriterThread:19365 [datastore.py:open_for_write():75] open: /home/naitri/Documents/CV_LTH_Pre-training/wandb/run-20221106_183806-17bgy9q4/run-17bgy9q4.wandb
+2022-11-06 18:38:06,690 DEBUG   SenderThread:19365 [sender.py:send():303] send: run
+2022-11-06 18:38:07,034 DEBUG   HandlerThread:19365 [handler.py:handle_request():138] handle_request: check_version
+2022-11-06 18:38:07,044 INFO    SenderThread:19365 [dir_watcher.py:__init__():216] watching files in: /home/naitri/Documents/CV_LTH_Pre-training/wandb/run-20221106_183806-17bgy9q4/files
+2022-11-06 18:38:07,044 INFO    SenderThread:19365 [sender.py:_start_run_threads():928] run started: 17bgy9q4 with start time 1667777886.675513
+2022-11-06 18:38:07,044 DEBUG   SenderThread:19365 [sender.py:send():303] send: summary
+2022-11-06 18:38:07,044 INFO    SenderThread:19365 [sender.py:_save_file():1171] saving file wandb-summary.json with policy end
+2022-11-06 18:38:07,045 DEBUG   SenderThread:19365 [sender.py:send_request():317] send_request: check_version
+2022-11-06 18:38:07,127 DEBUG   HandlerThread:19365 [handler.py:handle_request():138] handle_request: run_start
+2022-11-06 18:38:07,130 DEBUG   HandlerThread:19365 [meta.py:__init__():34] meta init
+2022-11-06 18:38:07,130 DEBUG   HandlerThread:19365 [meta.py:__init__():49] meta init done
+2022-11-06 18:38:07,130 DEBUG   HandlerThread:19365 [meta.py:probe():215] probe
+2022-11-06 18:38:07,141 DEBUG   HandlerThread:19365 [meta.py:_setup_git():205] setup git
+2022-11-06 18:38:07,153 DEBUG   HandlerThread:19365 [meta.py:_setup_git():212] setup git done
+2022-11-06 18:38:07,153 DEBUG   HandlerThread:19365 [meta.py:_save_pip():53] save pip
+2022-11-06 18:38:07,153 DEBUG   HandlerThread:19365 [meta.py:_save_pip():67] save pip done
+2022-11-06 18:38:07,154 DEBUG   HandlerThread:19365 [meta.py:_save_conda():74] save conda
+2022-11-06 18:38:08,046 INFO    Thread-13 :19365 [dir_watcher.py:_on_file_created():275] file/dir created: /home/naitri/Documents/CV_LTH_Pre-training/wandb/run-20221106_183806-17bgy9q4/files/wandb-summary.json
+2022-11-06 18:38:08,046 INFO    Thread-13 :19365 [dir_watcher.py:_on_file_created():275] file/dir created: /home/naitri/Documents/CV_LTH_Pre-training/wandb/run-20221106_183806-17bgy9q4/files/requirements.txt
+2022-11-06 18:38:08,046 INFO    Thread-13 :19365 [dir_watcher.py:_on_file_created():275] file/dir created: /home/naitri/Documents/CV_LTH_Pre-training/wandb/run-20221106_183806-17bgy9q4/files/conda-environment.yaml
+2022-11-06 18:38:10,382 DEBUG   HandlerThread:19365 [meta.py:_save_conda():84] save conda done
+2022-11-06 18:38:10,383 DEBUG   HandlerThread:19365 [meta.py:probe():253] probe done
+2022-11-06 18:38:10,424 DEBUG   SenderThread:19365 [sender.py:send():303] send: files
+2022-11-06 18:38:10,424 INFO    SenderThread:19365 [sender.py:_save_file():1171] saving file wandb-metadata.json with policy now
+2022-11-06 18:38:10,429 DEBUG   HandlerThread:19365 [handler.py:handle_request():138] handle_request: stop_status
+2022-11-06 18:38:10,429 DEBUG   SenderThread:19365 [sender.py:send_request():317] send_request: stop_status
+2022-11-06 18:38:10,504 DEBUG   SenderThread:19365 [sender.py:send():303] send: telemetry
+2022-11-06 18:38:10,507 DEBUG   SenderThread:19365 [sender.py:send():303] send: exit
+2022-11-06 18:38:10,507 INFO    SenderThread:19365 [sender.py:send_exit():442] handling exit code: 1
+2022-11-06 18:38:10,507 INFO    SenderThread:19365 [sender.py:send_exit():444] handling runtime: 3
+2022-11-06 18:38:10,507 INFO    SenderThread:19365 [sender.py:_save_file():1171] saving file wandb-summary.json with policy end
+2022-11-06 18:38:10,507 INFO    SenderThread:19365 [sender.py:send_exit():450] send defer
+2022-11-06 18:38:10,508 DEBUG   HandlerThread:19365 [handler.py:handle_request():138] handle_request: defer
+2022-11-06 18:38:10,508 INFO    HandlerThread:19365 [handler.py:handle_request_defer():161] handle defer: 0
+2022-11-06 18:38:10,508 DEBUG   SenderThread:19365 [sender.py:send_request():317] send_request: defer
+2022-11-06 18:38:10,508 INFO    SenderThread:19365 [sender.py:send_request_defer():459] handle sender defer: 0
+2022-11-06 18:38:10,508 INFO    SenderThread:19365 [sender.py:transition_state():463] send defer: 1
+2022-11-06 18:38:10,508 DEBUG   HandlerThread:19365 [handler.py:handle_request():138] handle_request: defer
+2022-11-06 18:38:10,509 INFO    HandlerThread:19365 [handler.py:handle_request_defer():161] handle defer: 1
+2022-11-06 18:38:10,605 DEBUG   SenderThread:19365 [sender.py:send_request():317] send_request: defer
+2022-11-06 18:38:10,605 INFO    SenderThread:19365 [sender.py:send_request_defer():459] handle sender defer: 1
+2022-11-06 18:38:10,605 INFO    SenderThread:19365 [sender.py:transition_state():463] send defer: 2
+2022-11-06 18:38:10,605 DEBUG   HandlerThread:19365 [handler.py:handle_request():138] handle_request: defer
+2022-11-06 18:38:10,605 INFO    HandlerThread:19365 [handler.py:handle_request_defer():161] handle defer: 2
+2022-11-06 18:38:10,605 DEBUG   SenderThread:19365 [sender.py:send():303] send: stats
+2022-11-06 18:38:10,606 DEBUG   SenderThread:19365 [sender.py:send_request():317] send_request: defer
+2022-11-06 18:38:10,606 INFO    SenderThread:19365 [sender.py:send_request_defer():459] handle sender defer: 2
+2022-11-06 18:38:10,606 INFO    SenderThread:19365 [sender.py:transition_state():463] send defer: 3
+2022-11-06 18:38:10,606 DEBUG   HandlerThread:19365 [handler.py:handle_request():138] handle_request: defer
+2022-11-06 18:38:10,606 INFO    HandlerThread:19365 [handler.py:handle_request_defer():161] handle defer: 3
+2022-11-06 18:38:10,607 DEBUG   SenderThread:19365 [sender.py:send_request():317] send_request: defer
+2022-11-06 18:38:10,607 INFO    SenderThread:19365 [sender.py:send_request_defer():459] handle sender defer: 3
+2022-11-06 18:38:10,607 INFO    SenderThread:19365 [sender.py:transition_state():463] send defer: 4
+2022-11-06 18:38:10,607 DEBUG   HandlerThread:19365 [handler.py:handle_request():138] handle_request: defer
+2022-11-06 18:38:10,607 INFO    HandlerThread:19365 [handler.py:handle_request_defer():161] handle defer: 4
+2022-11-06 18:38:10,607 DEBUG   SenderThread:19365 [sender.py:send():303] send: summary
+2022-11-06 18:38:10,608 INFO    SenderThread:19365 [sender.py:_save_file():1171] saving file wandb-summary.json with policy end
+2022-11-06 18:38:10,608 DEBUG   SenderThread:19365 [sender.py:send_request():317] send_request: defer
+2022-11-06 18:38:10,608 INFO    SenderThread:19365 [sender.py:send_request_defer():459] handle sender defer: 4
+2022-11-06 18:38:10,608 INFO    SenderThread:19365 [sender.py:transition_state():463] send defer: 5
+2022-11-06 18:38:10,608 DEBUG   HandlerThread:19365 [handler.py:handle_request():138] handle_request: defer
+2022-11-06 18:38:10,608 INFO    HandlerThread:19365 [handler.py:handle_request_defer():161] handle defer: 5
+2022-11-06 18:38:10,608 DEBUG   SenderThread:19365 [sender.py:send_request():317] send_request: defer
+2022-11-06 18:38:10,608 INFO    SenderThread:19365 [sender.py:send_request_defer():459] handle sender defer: 5
+2022-11-06 18:38:10,734 INFO    SenderThread:19365 [sender.py:transition_state():463] send defer: 6
+2022-11-06 18:38:10,735 DEBUG   HandlerThread:19365 [handler.py:handle_request():138] handle_request: defer
+2022-11-06 18:38:10,735 INFO    HandlerThread:19365 [handler.py:handle_request_defer():161] handle defer: 6
+2022-11-06 18:38:10,735 DEBUG   SenderThread:19365 [sender.py:send_request():317] send_request: defer
+2022-11-06 18:38:10,735 INFO    SenderThread:19365 [sender.py:send_request_defer():459] handle sender defer: 6
+2022-11-06 18:38:10,780 INFO    Thread-17 :19365 [upload_job.py:push():143] Uploaded file /tmp/tmpqrlw8b_6wandb/1c53mchj-wandb-metadata.json
+2022-11-06 18:38:11,046 INFO    Thread-13 :19365 [dir_watcher.py:_on_file_modified():292] file/dir modified: /home/naitri/Documents/CV_LTH_Pre-training/wandb/run-20221106_183806-17bgy9q4/files/wandb-summary.json
+2022-11-06 18:38:11,047 INFO    Thread-13 :19365 [dir_watcher.py:_on_file_modified():292] file/dir modified: /home/naitri/Documents/CV_LTH_Pre-training/wandb/run-20221106_183806-17bgy9q4/files/config.yaml
+2022-11-06 18:38:11,048 INFO    Thread-13 :19365 [dir_watcher.py:_on_file_modified():292] file/dir modified: /home/naitri/Documents/CV_LTH_Pre-training/wandb/run-20221106_183806-17bgy9q4/files/conda-environment.yaml
+2022-11-06 18:38:11,049 INFO    Thread-13 :19365 [dir_watcher.py:_on_file_created():275] file/dir created: /home/naitri/Documents/CV_LTH_Pre-training/wandb/run-20221106_183806-17bgy9q4/files/output.log
+2022-11-06 18:38:11,049 INFO    Thread-13 :19365 [dir_watcher.py:_on_file_created():275] file/dir created: /home/naitri/Documents/CV_LTH_Pre-training/wandb/run-20221106_183806-17bgy9q4/files/wandb-metadata.json
+2022-11-06 18:38:11,482 DEBUG   HandlerThread:19365 [handler.py:handle_request():138] handle_request: poll_exit
+2022-11-06 18:38:13,048 INFO    Thread-13 :19365 [dir_watcher.py:_on_file_modified():292] file/dir modified: /home/naitri/Documents/CV_LTH_Pre-training/wandb/run-20221106_183806-17bgy9q4/files/output.log
+2022-11-06 18:38:14,513 INFO    SenderThread:19365 [sender.py:transition_state():463] send defer: 7
+2022-11-06 18:38:14,513 DEBUG   SenderThread:19365 [sender.py:send_request():317] send_request: poll_exit
+2022-11-06 18:38:14,516 DEBUG   HandlerThread:19365 [handler.py:handle_request():138] handle_request: defer
+2022-11-06 18:38:14,516 INFO    HandlerThread:19365 [handler.py:handle_request_defer():161] handle defer: 7
+2022-11-06 18:38:14,517 DEBUG   SenderThread:19365 [sender.py:send_request():317] send_request: defer
+2022-11-06 18:38:14,517 INFO    SenderThread:19365 [sender.py:send_request_defer():459] handle sender defer: 7
+2022-11-06 18:38:14,517 INFO    SenderThread:19365 [dir_watcher.py:finish():362] shutting down directory watcher
+2022-11-06 18:38:15,049 INFO    Thread-13 :19365 [dir_watcher.py:_on_file_modified():292] file/dir modified: /home/naitri/Documents/CV_LTH_Pre-training/wandb/run-20221106_183806-17bgy9q4/files/output.log
+2022-11-06 18:38:15,051 INFO    SenderThread:19365 [dir_watcher.py:finish():392] scan: /home/naitri/Documents/CV_LTH_Pre-training/wandb/run-20221106_183806-17bgy9q4/files
+2022-11-06 18:38:15,051 INFO    SenderThread:19365 [dir_watcher.py:finish():406] scan save: /home/naitri/Documents/CV_LTH_Pre-training/wandb/run-20221106_183806-17bgy9q4/files/config.yaml config.yaml
+2022-11-06 18:38:15,051 INFO    SenderThread:19365 [dir_watcher.py:finish():406] scan save: /home/naitri/Documents/CV_LTH_Pre-training/wandb/run-20221106_183806-17bgy9q4/files/output.log output.log
+2022-11-06 18:38:15,058 INFO    SenderThread:19365 [dir_watcher.py:finish():406] scan save: /home/naitri/Documents/CV_LTH_Pre-training/wandb/run-20221106_183806-17bgy9q4/files/wandb-summary.json wandb-summary.json
+2022-11-06 18:38:15,064 INFO    SenderThread:19365 [dir_watcher.py:finish():406] scan save: /home/naitri/Documents/CV_LTH_Pre-training/wandb/run-20221106_183806-17bgy9q4/files/wandb-metadata.json wandb-metadata.json
+2022-11-06 18:38:15,064 INFO    SenderThread:19365 [dir_watcher.py:finish():406] scan save: /home/naitri/Documents/CV_LTH_Pre-training/wandb/run-20221106_183806-17bgy9q4/files/requirements.txt requirements.txt
+2022-11-06 18:38:15,064 INFO    SenderThread:19365 [dir_watcher.py:finish():406] scan save: /home/naitri/Documents/CV_LTH_Pre-training/wandb/run-20221106_183806-17bgy9q4/files/conda-environment.yaml conda-environment.yaml
+2022-11-06 18:38:15,064 INFO    SenderThread:19365 [sender.py:transition_state():463] send defer: 8
+2022-11-06 18:38:15,068 DEBUG   HandlerThread:19365 [handler.py:handle_request():138] handle_request: defer
+2022-11-06 18:38:15,068 INFO    HandlerThread:19365 [handler.py:handle_request_defer():161] handle defer: 8
+2022-11-06 18:38:15,072 DEBUG   SenderThread:19365 [sender.py:send_request():317] send_request: defer
+2022-11-06 18:38:15,076 INFO    SenderThread:19365 [sender.py:send_request_defer():459] handle sender defer: 8
+2022-11-06 18:38:15,077 INFO    SenderThread:19365 [file_pusher.py:finish():168] shutting down file pusher
+2022-11-06 18:38:15,373 INFO    Thread-19 :19365 [upload_job.py:push():143] Uploaded file /home/naitri/Documents/CV_LTH_Pre-training/wandb/run-20221106_183806-17bgy9q4/files/output.log
+2022-11-06 18:38:15,388 INFO    Thread-22 :19365 [upload_job.py:push():143] Uploaded file /home/naitri/Documents/CV_LTH_Pre-training/wandb/run-20221106_183806-17bgy9q4/files/conda-environment.yaml
+2022-11-06 18:38:15,397 INFO    Thread-18 :19365 [upload_job.py:push():143] Uploaded file /home/naitri/Documents/CV_LTH_Pre-training/wandb/run-20221106_183806-17bgy9q4/files/config.yaml
+2022-11-06 18:38:15,407 INFO    Thread-21 :19365 [upload_job.py:push():143] Uploaded file /home/naitri/Documents/CV_LTH_Pre-training/wandb/run-20221106_183806-17bgy9q4/files/requirements.txt
+2022-11-06 18:38:15,624 INFO    Thread-20 :19365 [upload_job.py:push():143] Uploaded file /home/naitri/Documents/CV_LTH_Pre-training/wandb/run-20221106_183806-17bgy9q4/files/wandb-summary.json
+2022-11-06 18:38:15,825 INFO    Thread-12 :19365 [sender.py:transition_state():463] send defer: 9
+2022-11-06 18:38:15,826 DEBUG   HandlerThread:19365 [handler.py:handle_request():138] handle_request: defer
+2022-11-06 18:38:15,826 INFO    HandlerThread:19365 [handler.py:handle_request_defer():161] handle defer: 9
+2022-11-06 18:38:15,826 DEBUG   SenderThread:19365 [sender.py:send_request():317] send_request: defer
+2022-11-06 18:38:15,826 INFO    SenderThread:19365 [sender.py:send_request_defer():459] handle sender defer: 9
+2022-11-06 18:38:15,826 INFO    SenderThread:19365 [file_pusher.py:join():173] waiting for file pusher
+2022-11-06 18:38:15,826 INFO    SenderThread:19365 [sender.py:transition_state():463] send defer: 10
+2022-11-06 18:38:15,827 DEBUG   HandlerThread:19365 [handler.py:handle_request():138] handle_request: defer
+2022-11-06 18:38:15,827 INFO    HandlerThread:19365 [handler.py:handle_request_defer():161] handle defer: 10
+2022-11-06 18:38:15,827 DEBUG   SenderThread:19365 [sender.py:send_request():317] send_request: defer
+2022-11-06 18:38:15,827 INFO    SenderThread:19365 [sender.py:send_request_defer():459] handle sender defer: 10
+2022-11-06 18:38:16,134 INFO    SenderThread:19365 [sender.py:transition_state():463] send defer: 11
+2022-11-06 18:38:16,134 DEBUG   HandlerThread:19365 [handler.py:handle_request():138] handle_request: defer
+2022-11-06 18:38:16,135 INFO    HandlerThread:19365 [handler.py:handle_request_defer():161] handle defer: 11
+2022-11-06 18:38:16,135 DEBUG   SenderThread:19365 [sender.py:send_request():317] send_request: defer
+2022-11-06 18:38:16,135 INFO    SenderThread:19365 [sender.py:send_request_defer():459] handle sender defer: 11
+2022-11-06 18:38:16,135 INFO    SenderThread:19365 [sender.py:transition_state():463] send defer: 12
+2022-11-06 18:38:16,137 DEBUG   HandlerThread:19365 [handler.py:handle_request():138] handle_request: defer
+2022-11-06 18:38:16,137 INFO    HandlerThread:19365 [handler.py:handle_request_defer():161] handle defer: 12
+2022-11-06 18:38:16,137 DEBUG   SenderThread:19365 [sender.py:send():303] send: final
+2022-11-06 18:38:16,137 DEBUG   SenderThread:19365 [sender.py:send():303] send: footer
+2022-11-06 18:38:16,138 DEBUG   SenderThread:19365 [sender.py:send_request():317] send_request: defer
+2022-11-06 18:38:16,138 INFO    SenderThread:19365 [sender.py:send_request_defer():459] handle sender defer: 12
+2022-11-06 18:38:16,139 DEBUG   HandlerThread:19365 [handler.py:handle_request():138] handle_request: poll_exit
+2022-11-06 18:38:16,141 DEBUG   HandlerThread:19365 [handler.py:handle_request():138] handle_request: server_info
+2022-11-06 18:38:16,141 DEBUG   SenderThread:19365 [sender.py:send_request():317] send_request: poll_exit
+2022-11-06 18:38:16,142 DEBUG   SenderThread:19365 [sender.py:send_request():317] send_request: server_info
+2022-11-06 18:38:16,146 DEBUG   HandlerThread:19365 [handler.py:handle_request():138] handle_request: get_summary
+2022-11-06 18:38:16,146 DEBUG   HandlerThread:19365 [handler.py:handle_request():138] handle_request: sampled_history
+2022-11-06 18:38:16,289 INFO    MainThread:19365 [wandb_run.py:_footer_history_summary_info():3377] rendering history
+2022-11-06 18:38:16,289 INFO    MainThread:19365 [wandb_run.py:_footer_history_summary_info():3409] rendering summary
+2022-11-06 18:38:16,289 INFO    MainThread:19365 [wandb_run.py:_footer_sync_info():3333] logging synced files
+2022-11-06 18:38:16,290 DEBUG   HandlerThread:19365 [handler.py:handle_request():138] handle_request: shutdown
+2022-11-06 18:38:16,290 INFO    HandlerThread:19365 [handler.py:finish():814] shutting down handler
+2022-11-06 18:38:17,137 INFO    WriterThread:19365 [datastore.py:close():279] close: /home/naitri/Documents/CV_LTH_Pre-training/wandb/run-20221106_183806-17bgy9q4/run-17bgy9q4.wandb
+2022-11-06 18:38:17,288 INFO    SenderThread:19365 [sender.py:finish():1331] shutting down sender
+2022-11-06 18:38:17,289 INFO    SenderThread:19365 [file_pusher.py:finish():168] shutting down file pusher
+2022-11-06 18:38:17,289 INFO    SenderThread:19365 [file_pusher.py:join():173] waiting for file pusher
+2022-11-06 18:38:17,295 INFO    MainThread:19365 [internal.py:handle_exit():78] Internal process exited

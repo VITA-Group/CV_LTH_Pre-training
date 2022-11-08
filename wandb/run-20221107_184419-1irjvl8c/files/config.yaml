@@ -1,0 +1,108 @@
+wandb_version: 1
+
+_wandb:
+  desc: null
+  value:
+    cli_version: 0.13.4
+    framework: torch
+    is_jupyter_run: false
+    is_kaggle_kernel: false
+    python_version: 3.8.13
+    start_time: 1667864659.652958
+    t:
+      1:
+      - 1
+      - 41
+      - 55
+      2:
+      - 1
+      - 41
+      - 55
+      3:
+      - 16
+      - 23
+      4: 3.8.13
+      5: 0.13.4
+      8:
+      - 5
+arch:
+  desc: null
+  value: resnet18
+balanced:
+  desc: null
+  value: false
+batch_size:
+  desc: null
+  value: 256
+conv1:
+  desc: null
+  value: false
+data:
+  desc: null
+  value: ../../data
+dataset:
+  desc: null
+  value: caltech101
+decreasing_lr:
+  desc: null
+  value: 91,136
+epochs:
+  desc: null
+  value: 100
+fc:
+  desc: null
+  value: false
+few_shot_ratio:
+  desc: null
+  value: null
+gpu:
+  desc: null
+  value: 0
+lr:
+  desc: null
+  value: 0.0001
+momentum:
+  desc: null
+  value: 0.9
+number_of_samples:
+  desc: null
+  value: 1000
+pretrained:
+  desc: null
+  value: null
+print_freq:
+  desc: null
+  value: 50
+prune_type:
+  desc: null
+  value: lt
+pruning_times:
+  desc: null
+  value: 19
+random_prune:
+  desc: null
+  value: false
+rate:
+  desc: null
+  value: 0.2
+rewind_epoch:
+  desc: null
+  value: 9
+save_dir:
+  desc: null
+  value: caltech101
+save_model:
+  desc: null
+  value: true
+seed:
+  desc: null
+  value: null
+subratio:
+  desc: null
+  value: 1
+warmup:
+  desc: null
+  value: 1
+weight_decay:
+  desc: null
+  value: 0.0002

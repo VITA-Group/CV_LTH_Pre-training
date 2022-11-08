@@ -9,7 +9,10 @@ from torchvision.datasets import (
 )
 from torch.utils.data import DataLoader, Subset
 import numpy as np
-
+from imutils import paths
+import os
+import cv2
+from sklearn.model_selection import train_test_split
 
 class FewShotSubset(Subset):
     def __init__(self, dataset, indices):
@@ -192,6 +195,10 @@ def caltech256_dataloaders(
     val_ratio=0.2,
     balanced=False,
 ):
+    data,labels = caltech(data_dir)
+    (X, x_val , Y, y_val) = train_test_split(data, labels, test_size=0.15,  stratify=labels,random_state=42)
+    (x_train, x_test, y_train, y_test) = train_test_split(X, Y, test_size=0.15, random_state=42)
+    print(f"x_train examples: {x_train.shape}\nx_test examples: {x_test.shape}\nx_val examples: {x_val.shape}")
 
     normalize = transforms.Normalize(
         mean=[0.5071, 0.4866, 0.4409], std=[0.2009, 0.1984, 0.2023]
@@ -206,6 +213,11 @@ def caltech256_dataloaders(
     )
 
     test_transform = transforms.Compose([transforms.ToTensor(), normalize])
+
+    train_data = CaltechDataset(x_train, y_train, train_transforms)
+    val_data = CaltechDataset(x_val, y_val, val_transform)
+    test_data = CaltechDataset(x_test, y_test, val_transform) 
+    '''to be edited
     if subset_ratio is not None:
         raise ValueError("subset ratio is not supported for caltech256")
 
@@ -226,9 +238,9 @@ def caltech256_dataloaders(
             train_set = get_random_subset(train_set, number_of_samples)
 
     test_set = Caltech256(
-        data_dir, train=False, transform=test_transform, download=True
+        data_dir, transform=test_transform, download=True
     )
-
+    '''
     train_loader = DataLoader(
         train_set,
         batch_size=batch_size,
@@ -256,6 +268,12 @@ def caltech101_dataloaders(
     balanced=False,
 ):
 
+    data,labels = caltech(data_dir)
+    (X, x_val , Y, y_val) = train_test_split(data, labels, test_size=0.15,  stratify=labels,random_state=42)
+    (x_train, x_test, y_train, y_test) = train_test_split(X, Y, test_size=0.15, random_state=42)
+    print(f"x_train examples: {x_train.shape}\nx_test examples: {x_test.shape}\nx_val examples: {x_val.shape}")
+
+
     normalize = transforms.Normalize(
         mean=[0.5071, 0.4866, 0.4409], std=[0.2009, 0.1984, 0.2023]
     )
@@ -269,6 +287,11 @@ def caltech101_dataloaders(
     )
 
     test_transform = transforms.Compose([transforms.ToTensor(), normalize])
+
+    train_data = CaltechDataset(x_train, y_train, train_transforms)
+    val_data = CaltechDataset(x_val, y_val, val_transform)
+    test_data = CaltechDataset(x_test, y_test, val_transform)   
+    ''' to be edited 
     if subset_ratio is not None:
         raise ValueError("subset ratio is not supported for caltech101")
 
@@ -290,7 +313,7 @@ def caltech101_dataloaders(
 
     test_set = Caltech101(
         data_dir, train=False, transform=test_transform, download=True
-    )
+    )'''
 
     train_loader = DataLoader(
         train_set,
@@ -423,3 +446,48 @@ def fashionmnist_dataloaders(batch_size=64, data_dir="datasets/fashionmnist"):
     )
 
     return train_loader, val_loader, test_loader
+
+
+def caltech(dir):
+    image_paths = list(paths.list_images(dir))
+
+    data = []
+    labels = []
+    for img_path in (image_paths):
+        label = img_path.split(os.path.sep)[-2]
+        if label == "BACKGROUND_Google":
+            continue
+        img = cv2.imread(img_path)
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        
+        data.append(img)
+        labels.append(label)
+        
+    data = np.array(data)
+    labels = np.array(labels)
+
+    return data,labels
+    
+    
+
+class CaltechDataset(Dataset):
+    def __init__(self, images, labels= None, transforms = None):
+        self.labels = labels
+        self.images = images
+        self.transforms = transforms
+        
+    def __len__(self):
+        return len(self.images)
+    
+    def __getitem__(self, index):
+        data = self.images[index][:]
+        
+        if self.transforms:
+            data = self.transforms(data)
+            
+        if self.y is not None:
+            return (data, self.labels[index])
+        else:
+            return data
+
+    

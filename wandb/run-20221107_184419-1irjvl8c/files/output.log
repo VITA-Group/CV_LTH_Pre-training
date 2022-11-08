@@ -1,0 +1,43 @@
+**************************************************
+Dataset: caltech101
+Model: resnet18
+**************************************************
+Pruning type: lt
+L1 Unstructure Pruning
+/home/naitri/miniconda3/envs/pytorch/lib/python3.8/site-packages/torch/cuda/__init__.py:143: UserWarning:
+NVIDIA GeForce RTX 3060 Laptop GPU with CUDA capability sm_86 is not compatible with the current PyTorch installation.
+The current PyTorch install supports CUDA capabilities sm_37 sm_50 sm_60 sm_70.
+If you want to use the NVIDIA GeForce RTX 3060 Laptop GPU GPU with PyTorch, please check the instructions at https://pytorch.org/get-started/locally/
+  warnings.warn(incompatible_device_warn.format(device_name, capability, " ".join(arch_list), device_name))
+Traceback (most recent call last):
+  File "main_imp_downstream.py", line 339, in <module>
+    main()
+  File "main_imp_downstream.py", line 156, in main
+    model, train_loader, val_loader, test_loader = setup_model_dataset(args)
+  File "/home/naitri/Documents/CV_LTH_Pre-training/utils.py", line 69, in setup_model_dataset
+    train_loader, val_loader, test_loader = caltech101_dataloaders(
+  File "/home/naitri/Documents/CV_LTH_Pre-training/dataset.py", line 291, in caltech101_dataloaders
+    test_set = Caltech101(
+  File "/home/naitri/miniconda3/envs/pytorch/lib/python3.8/site-packages/torchvision/datasets/caltech.py", line 52, in __init__
+    self.download()
+  File "/home/naitri/miniconda3/envs/pytorch/lib/python3.8/site-packages/torchvision/datasets/caltech.py", line 124, in download
+    download_and_extract_archive(
+  File "/home/naitri/miniconda3/envs/pytorch/lib/python3.8/site-packages/torchvision/datasets/utils.py", line 427, in download_and_extract_archive
+    download_url(url, download_root, filename, md5)
+  File "/home/naitri/miniconda3/envs/pytorch/lib/python3.8/site-packages/torchvision/datasets/utils.py", line 130, in download_url
+    url = _get_redirect_url(url, max_hops=max_redirect_hops)
+  File "/home/naitri/miniconda3/envs/pytorch/lib/python3.8/site-packages/torchvision/datasets/utils.py", line 78, in _get_redirect_url
+    with urllib.request.urlopen(urllib.request.Request(url, headers=headers)) as response:
+  File "/home/naitri/miniconda3/envs/pytorch/lib/python3.8/urllib/request.py", line 222, in urlopen
+    return opener.open(url, data, timeout)
+  File "/home/naitri/miniconda3/envs/pytorch/lib/python3.8/urllib/request.py", line 531, in open
+    response = meth(req, response)
+  File "/home/naitri/miniconda3/envs/pytorch/lib/python3.8/urllib/request.py", line 640, in http_response
+    response = self.parent.error(
+  File "/home/naitri/miniconda3/envs/pytorch/lib/python3.8/urllib/request.py", line 569, in error
+    return self._call_chain(*args)
+  File "/home/naitri/miniconda3/envs/pytorch/lib/python3.8/urllib/request.py", line 502, in _call_chain
+    result = func(*args)
+  File "/home/naitri/miniconda3/envs/pytorch/lib/python3.8/urllib/request.py", line 649, in http_error_default
+    raise HTTPError(req.full_url, code, msg, hdrs, fp)
+urllib.error.HTTPError: HTTP Error 404: Not Found

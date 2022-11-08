@@ -38,6 +38,7 @@ def makedir_exist_ok(dirpath):
     try:
         os.makedirs(dirpath)
     except OSError as e:
+        print("makedir_exist_ok: ", e)
         if e.errno == errno.EEXIST:
             pass
         else:
@@ -72,6 +73,7 @@ def download_url(url, root, filename=None, md5=None):
                 reporthook=gen_bar_updater(tqdm(unit='B', unit_scale=True))
             )
         except OSError:
+            print('Download failed, retrying download')
             if url[:5] == 'https':
                 url = url.replace('https:', 'http:')
                 print('Failed download. Trying https -> http instead.'
